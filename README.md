@@ -45,7 +45,7 @@ npm run dev                  # http://localhost:3000
 仓库公开时只提交源码、依赖锁文件及配置模板；不要提交 `.env.local`、构建产物或 `node_modules`。
 
 1. 在 Vercel 导入 GitHub 的 `ai-quest` 仓库，框架选择 Next.js，根目录保留仓库根目录。
-2. 在项目环境变量中配置 `DEEPSEEK_API_KEY`，选中 Production 和 Preview；不要加 `NEXT_PUBLIC_` 前缀。可选变量见 `.env.example`。
+2. 在项目环境变量中配置 `DEEPSEEK_API_KEY`，正式站点至少选中 Production；如需让分支预览调用付费模型，再单独启用 Preview。不要加 `NEXT_PUBLIC_` 前缀。可选变量见 `.env.example`。
 3. 部署使用 `npm run build`，无需另起 `next start`，两个 API 自动运行在 Vercel Functions。
 4. API 上游超时 45 秒，函数最长 60 秒，浏览器等待 55 秒；默认不自动重试 AI 请求，避免重复调用。
 5. 验证首页、世界地图、答错重做、Boss 评分与导师追问。

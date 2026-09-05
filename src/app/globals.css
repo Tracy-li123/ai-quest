@@ -1,26 +1,155 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   AI Quest — 全局样式（浅色主题，现代 SaaS + 轻度游戏感）
+--------------------------------------------------------------------------- */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f6f7fb;
+  --fg: #0f172a;
+
+  /* 系统字体栈：不依赖 next/font 在构建期下载外部字体（部署沙箱无外网） */
+  --font-geist-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+    monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+}
+
+/* 地图画布 */
+.map-canvas {
+  user-select: none;
+}
+
+/* 点阵网格背景 */
+.map-grid-bg {
+  background-image: radial-gradient(circle at 1px 1px, rgba(99, 102, 241, 0.14) 1px, transparent 0);
+  background-size: 26px 26px;
+}
+
+/* 世界路径流动动画 */
+.world-path-anim {
+  stroke-dasharray: 6 10;
+  animation: worldDash 3.2s linear infinite;
+}
+@keyframes worldDash {
+  to {
+    stroke-dashoffset: -32;
+  }
+}
+
+/* 当前世界（Agent 城）光环 */
+.world-current-ring {
+  border-color: #6366f1 !important;
+  box-shadow:
+    0 0 0 3px rgba(99, 102, 241, 0.25),
+    0 0 30px rgba(99, 102, 241, 0.35),
+    0 10px 30px rgba(15, 23, 42, 0.12);
+}
+
+/* 世界图标色块 */
+.world-icon-emerald { background: linear-gradient(135deg, #d1fae5, #a7f3d0); }
+.world-icon-green   { background: linear-gradient(135deg, #dcfce7, #bbf7d0); }
+.world-icon-teal    { background: linear-gradient(135deg, #ccfbf1, #99f6e4); }
+.world-icon-indigo  { background: linear-gradient(135deg, #e0e7ff, #c7d2fe); }
+.world-icon-violet  { background: linear-gradient(135deg, #ede9fe, #ddd6fe); }
+.world-icon-slate   { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); }
+
+/* 关卡图标色块 */
+.quest-icon-sky     { background: linear-gradient(135deg, #e0f2fe, #bae6fd); }
+.quest-icon-violet  { background: linear-gradient(135deg, #ede9fe, #ddd6fe); }
+.quest-icon-indigo  { background: linear-gradient(135deg, #e0e7ff, #c7d2fe); }
+.quest-icon-amber   { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+.quest-icon-rose    { background: linear-gradient(135deg, #ffe4e6, #fecdd3); }
+.quest-icon-cyan    { background: linear-gradient(135deg, #cffafe, #a5f3fc); }
+.quest-icon-teal    { background: linear-gradient(135deg, #ccfbf1, #99f6e4); }
+.quest-icon-fuchsia { background: linear-gradient(135deg, #fae8ff, #f5d0fe); }
+.quest-icon-emerald { background: linear-gradient(135deg, #d1fae5, #a7f3d0); }
+.quest-icon-green   { background: linear-gradient(135deg, #dcfce7, #bbf7d0); }
+.quest-icon-lime    { background: linear-gradient(135deg, #ecfccb, #d9f99d); }
+.quest-icon-slate   { background: linear-gradient(135deg, #e2e8f0, #cbd5e1); }
+.quest-icon-zinc    { background: linear-gradient(135deg, #f4f4f5, #e4e4e7); }
+.quest-icon-orange  { background: linear-gradient(135deg, #ffedd5, #fed7aa); }
+.quest-icon-red     { background: linear-gradient(135deg, #fee2e2, #fecaca); }
+
+/* ---- QuestNode 状态样式 ---- */
+
+/* 已完成 */
+.quest-node-done {
+  border: 2px solid #34d399;
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  box-shadow:
+    0 0 0 3px rgba(52, 211, 153, 0.22),
+    0 8px 20px rgba(15, 23, 42, 0.1);
+}
+
+/* 可挑战（呼吸光环） */
+.quest-node-available {
+  border: 2px solid #818cf8;
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+  box-shadow:
+    0 0 0 3px rgba(129, 140, 248, 0.28),
+    0 0 22px rgba(99, 102, 241, 0.35),
+    0 10px 26px rgba(15, 23, 42, 0.12);
+}
+
+/* 选中 */
+.quest-node-selected {
+  border-color: #6366f1 !important;
+  box-shadow:
+    0 0 0 4px rgba(99, 102, 241, 0.35),
+    0 0 34px rgba(99, 102, 241, 0.5),
+    0 12px 28px rgba(15, 23, 42, 0.16) !important;
+  transform: scale(1.06);
+}
+
+/* 锁定 */
+.quest-node-locked {
+  border: 2px solid #e2e8f0;
+  background: linear-gradient(135deg, #f8fafc, #eef2f7);
+  filter: saturate(0.4);
+}
+
+/* Boss 节点：菱形 + 暗色渐变 + 金色光晕 */
+.quest-boss-style {
+  border: 2px solid #fbbf24;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(251, 191, 36, 0.28), transparent 55%),
+    linear-gradient(135deg, #1e293b, #334155);
+  box-shadow:
+    0 0 0 4px rgba(251, 191, 36, 0.28),
+    0 0 30px rgba(251, 191, 36, 0.4),
+    0 14px 34px rgba(15, 23, 42, 0.28);
+}
+.quest-boss-head {
+  background: radial-gradient(circle at 30% 25%, rgba(251, 191, 36, 0.35), transparent 55%),
+    linear-gradient(135deg, #1e293b, #334155);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.35), 0 8px 24px rgba(15, 23, 42, 0.25);
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
